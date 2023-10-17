@@ -1,13 +1,50 @@
 workflows:
 
-# Development Workflow
+  # Development Workflow
   development:
     name: build, test & publish Dev version, Android & iOS
-    scripts:
-    - ...
+    instance_type: mac_pro
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: dev-*
+          include: false
+      tag_patterns:
+        - pattern: build v+([0-9]).+([0-9]).+([0-9])
+      cancel_previous_builds: true
+    environment:
+      flutter: 3.13.7
+      java: 1.8
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT/.pub-cache
+        - $HOME/.gradle/caches
 
-# Production Workflow
+
+    scripts:
+      - ...
+
+
+
+
+  # Production Workflow
   production:
     name: build, test & publish Prod version, Android & iOS
+    instance_type: mac_pro
+    environment:
+      # SDK
+      flutter: 3.13.7
+      cocoapods: default
+      # IDE
+      xcode: 12.5
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT/.pub-cache
+        - $HOME/Library/Caches/CocoaPods
+
     scripts:
-    - ...
+      - ...
+
+
