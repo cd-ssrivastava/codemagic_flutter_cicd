@@ -1,0 +1,13 @@
+workflows:
+
+# Development Workflow
+  development:
+    name: build, test & publish Dev version, Android & iOS
+    scripts:
+    - ...
+
+# Production Workflow
+  production:
+    name: build, test & publish Prod version, Android & iOS
+    scripts:
+    - ...
