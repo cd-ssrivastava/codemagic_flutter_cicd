@@ -4,6 +4,7 @@ import 'package:codemagic_flutter_cicd/Bloc.dart';
 import 'package:codemagic_flutter_cicd/MyHomePage.dart';
 import 'package:codemagic_flutter_cicd/RemoteSourceRepository.dart';
 import 'package:codemagic_flutter_cicd/RemoteSourceRepositoryImpl.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ import 'package:provider/provider.dart';
 var getIt = GetIt.instance;
 
 void main() {
-  getIt.registerFactory<Api>(() => Api());
+  getIt.registerFactory<Api>(() => Api(Dio()));
   getIt.registerFactory<RemoteSourceRepository>(() => RemoteSourceRepositoryImpl(getIt.get<Api>()));
   getIt.registerFactory<AnimalUseCase>(() => AnimalUseCase(getIt.get<RemoteSourceRepository>()));
 
