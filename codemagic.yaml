@@ -13,7 +13,7 @@ workflows:
         - tag
       branch_patterns:
         - pattern: dev-*
-          include: false
+          include: true
       tag_patterns:
         - pattern: build v+([0-9]).+([0-9]).+([0-9])
       cancel_previous_builds: true
