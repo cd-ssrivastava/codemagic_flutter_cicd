@@ -5,8 +5,8 @@ workflows:
     name: Development Workflow - Android & iOS
     instance_type: mac_pro
     max_build_duration: 120
-#    integrations:
-#      app_store_connect: codemagic
+    integrations:
+      app_store_connect: codemagic
     triggering:
       events:
         - push
