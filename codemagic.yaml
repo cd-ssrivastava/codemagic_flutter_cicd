@@ -19,6 +19,7 @@ workflows:
       tag_patterns:
 #        - pattern: build v+([0-9]).+([0-9]).+([0-9])
         - pattern: build
+        - include: true
       cancel_previous_builds: true
 
 # watched files/folders have changed since the last successful build

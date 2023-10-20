@@ -3,4 +3,4 @@
 A new Flutter project.
 
 ## Codemagic
-Build Trigger main branch build v0.0.3
+Build Trigger main branch build v0.0.4
