@@ -85,21 +85,19 @@ workflows:
           echo $BUILDNAME
           ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
           if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
-           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/*.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME.apk"
+           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/app-release.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME.apk"
           fi
-    
-    
 
     artifacts:
-      - $ARTIFACTS_ANDROID_APK_RELEASE_PATH
-      - build/**/outputs/**/mapping.txt
+      - $ARTIFACTS_ANDROID_APK_RELEASE_PATH/
+#      - build/**/outputs/**/mapping.txt
     publishing:
-#      email:
-#        recipients:
-#          - sshivam@citridot.com
-#        notify:
-#          success: true
-#          failure: false
+      email:
+        recipients:
+          - sshivam@citridot.com
+        notify:
+          success: true
+          failure: false
       app_store_connect:
         auth: integration
         submit_to_testflight: true
