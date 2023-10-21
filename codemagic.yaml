@@ -50,11 +50,11 @@ workflows:
       - name: Get Flutter packages  # run gets flutter packages of project
         script: flutter packages pub get
 
-#      - name: Flutter analyze
-#        script: flutter analyze
-#      - name: Flutter unit tests
-#        script: flutter test
-#        ignore_failure: true
+      - name: Flutter Analyze
+        script: flutter analyze
+      - name: Flutter Unit Tests
+        script: flutter test
+        ignore_failure: true
 
       - name: Build Android App Bundle in Flutter
         script: |
@@ -72,10 +72,11 @@ workflows:
 #          flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
       - name: Rename artifacts
         script: |
-          if [ ! -f "/usr/share/icons/$j/scalable" ]; then
+          if [ ! -f "build/**/outputs/bundle/**/*.aab" ]; then
             echo "Exists"
           fi
-            echo "NOT Exists"
+            echo "Exists2"
+
 
     artifacts:
       - build/**/outputs/bundle/**/*.aab
