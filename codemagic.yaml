@@ -48,7 +48,7 @@ workflows:
     scripts:
       - name: Rename Artifacts 1
         script: |
-          set TIME_MAC=$(date +%d_%m_%Y)
+#          set TIME_MAC=$(date +%d_%m_%Y)
           echo $TIME_MAC
           set BUILDNAME=Svarupa_$TIME_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
           echo $BUILDNAME
