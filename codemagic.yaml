@@ -39,6 +39,8 @@ workflows:
       java: 17
       cocoapods: default
       xcode: latest
+      groups:
+        - MacOS
     cache:
       cache_paths:
         - $FLUTTER_ROOT/.pub-cache
