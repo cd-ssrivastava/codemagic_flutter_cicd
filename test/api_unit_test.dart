@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:codemagic_flutter_cicd/Api.dart';
+import 'package:codemagic_flutter_cicd/api.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

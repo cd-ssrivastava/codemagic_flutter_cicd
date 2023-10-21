@@ -1,5 +1,5 @@
-import 'package:codemagic_flutter_cicd/Model.dart';
-import 'package:codemagic_flutter_cicd/RemoteSourceRepository.dart';
+import 'package:codemagic_flutter_cicd/model.dart';
+import 'package:codemagic_flutter_cicd/remote_source_repository.dart';
 
 class AnimalUseCase {
   RemoteSourceRepository remoteSourceRepository;

@@ -1,9 +1,9 @@
-import 'package:codemagic_flutter_cicd/AnimalUseCase.dart';
-import 'package:codemagic_flutter_cicd/Api.dart';
-import 'package:codemagic_flutter_cicd/Bloc.dart';
-import 'package:codemagic_flutter_cicd/MyHomePage.dart';
-import 'package:codemagic_flutter_cicd/RemoteSourceRepository.dart';
-import 'package:codemagic_flutter_cicd/RemoteSourceRepositoryImpl.dart';
+import 'package:codemagic_flutter_cicd/animal_use_case.dart';
+import 'package:codemagic_flutter_cicd/api.dart';
+import 'package:codemagic_flutter_cicd/bloc.dart';
+import 'package:codemagic_flutter_cicd/my_home_page.dart';
+import 'package:codemagic_flutter_cicd/remote_source_repository.dart';
+import 'package:codemagic_flutter_cicd/remote_source_repositoryImpl.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';

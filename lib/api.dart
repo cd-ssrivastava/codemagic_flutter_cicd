@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 
+import 'utils.dart';
+ 
 class Api {
   Dio dio;
 
@@ -9,7 +9,7 @@ class Api {
 
   Future<Map<String, dynamic>?> getApiData() async {
     Response<Map<String, dynamic>> response = await dio.get("https://datausa.io/api/data?drilldowns=Nation&measures=Population");
-    print(response.data);
+    printLog(response.data);
     return response.data;
   }
 }

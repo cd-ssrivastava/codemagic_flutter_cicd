@@ -1,6 +1,6 @@
-import 'package:codemagic_flutter_cicd/Api.dart';
-import 'package:codemagic_flutter_cicd/Model.dart';
-import 'package:codemagic_flutter_cicd/RemoteSourceRepository.dart';
+import 'package:codemagic_flutter_cicd/api.dart';
+import 'package:codemagic_flutter_cicd/model.dart';
+import 'package:codemagic_flutter_cicd/remote_source_repository.dart';
 
 class RemoteSourceRepositoryImpl implements RemoteSourceRepository {
   Api api;

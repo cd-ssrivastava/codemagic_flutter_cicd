@@ -1,8 +1,10 @@
-import 'package:codemagic_flutter_cicd/AnimalUseCase.dart';
-import 'package:codemagic_flutter_cicd/Model.dart';
-import 'package:codemagic_flutter_cicd/RemoteSourceRepository.dart';
+import 'package:codemagic_flutter_cicd/animal_use_case.dart';
+import 'package:codemagic_flutter_cicd/model.dart';
+import 'package:codemagic_flutter_cicd/remote_source_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+
+import 'utils.dart';
 
 var getIt = GetIt.instance;
 
@@ -13,7 +15,7 @@ class Bloc extends ChangeNotifier {
   void getData() {
     animalUseCase.getApiData().then((value) {
       list=value;
-      print("Bloc ${value}");
+      printLog("Bloc ${value}");
       notifyListeners();
     });
   }

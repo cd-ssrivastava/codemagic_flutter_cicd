@@ -1,4 +1,5 @@
-import 'package:codemagic_flutter_cicd/Bloc.dart';
+import 'package:codemagic_flutter_cicd/bloc.dart';
+import 'package:codemagic_flutter_cicd/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("build ${Provider.of<Bloc>(context).list.length}");
+    printLog("build ${Provider.of<Bloc>(context).list.length}");
 
     return Scaffold(
       appBar: AppBar(
