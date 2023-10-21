@@ -50,9 +50,9 @@ workflows:
     scripts:
       - name: Rename Artifacts 1
         script: |
-          echo $TIME_MAC
-          echo $(date +%d_%m_%Y)
-          set BUILDNAME=Svarupa_$TIME_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
+          export TIME=$(date +%d_%m_%Y)
+          echo $TIME
+          export BUILDNAME=Svarupa_$TIME_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
           echo $BUILDNAME
           ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
           if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
