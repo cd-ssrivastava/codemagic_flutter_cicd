@@ -74,9 +74,9 @@ workflows:
         script: |
            ls build/**/outputs/bundle/release
            ls build/**/outputs/flutter-apk
-          if [ ! -f "build/**/outputs/bundle/**/*.aab" ]; then
+           if [ ! -f "build/**/outputs/bundle/**/*.aab" ]; then
             mv "build/**/outputs/bundle/**/*.aab" "build/**/outputs/bundle/**/*.aab"
-          fi
+           fi
             echo "Exists2"
 
 
