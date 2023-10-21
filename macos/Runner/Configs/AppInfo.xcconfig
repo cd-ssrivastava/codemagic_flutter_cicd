@@ -8,7 +8,7 @@
 PRODUCT_NAME = codemagic_flutter_cicd
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.codemagicFlutterCicd
+PRODUCT_BUNDLE_IDENTIFIER = com.example.codemagic
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
