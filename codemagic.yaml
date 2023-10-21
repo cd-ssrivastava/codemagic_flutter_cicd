@@ -46,7 +46,11 @@ workflows:
     scripts:
       - name: Set up local.properties
         script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties" # Set Flutter SDK path for Android project
-
+      - name: Custom Scripts
+        script: |
+          set TIME=$(date +%d_%m_%Y)
+          echo $TIME_MAC
+          echo $TIME
       - name: Get Flutter packages  # run gets flutter packages of project
         script: flutter packages pub get
 
