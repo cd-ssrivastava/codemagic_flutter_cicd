@@ -73,11 +73,12 @@ workflows:
       - name: Rename Artifacts 1
         script: |
           set TIME=$(date +%d_%m_%Y)
-          set FILENAME=Svarupa_$TIME_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
-          echo $FILENAME
+          echo $TIME
+          set BUILDNAME=Svarupa_$TIME_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
+          echo $BUILDNAME
           ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
           if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
-           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/*.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$FILENAME.apk"
+           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/*.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME.apk"
           fi
     
     
