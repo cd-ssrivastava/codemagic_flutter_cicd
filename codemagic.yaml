@@ -70,7 +70,7 @@ workflows:
 #      - name: Flutter build ipa and automatic versioning
 #        script: |
 #          flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
-      - name: Rename Artifacts
+      - name: Rename Artifacts 1
         script: |
            ls build/**/outputs/bundle/release
            ls build/**/outputs/flutter-apk
