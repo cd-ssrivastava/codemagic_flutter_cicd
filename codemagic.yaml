@@ -11,26 +11,26 @@ workflows:
       events:
         - push
         - tag
-#       - pull_request
+      #       - pull_request
       branch_patterns:
         - pattern: dev-*
         - include: true
-        - source:  true
+        - source: true
       tag_patterns:
-#       - pattern: build v+([0-9]).+([0-9]).+([0-9])
+        #       - pattern: build v+([0-9]).+([0-9]).+([0-9])
         - pattern: build*
         - include: true
       cancel_previous_builds: true
 
-# watched files/folders have changed since the last successful build
-#    when:
-#      changeset:
-#        includes:
-#          - '.'
-#          - 'android/'
-#        excludes:
-#          - '**/*.md'
-#      condition: not event.pull_request.labels[0].name == "codemagicTest"
+    # watched files/folders have changed since the last successful build
+    #    when:
+    #      changeset:
+    #        includes:
+    #          - '.'
+    #          - 'android/'
+    #        excludes:
+    #          - '**/*.md'
+    #      condition: not event.pull_request.labels[0].name == "codemagicTest"
 
     environment:
       flutter: 3.13.7
@@ -50,49 +50,51 @@ workflows:
       - name: Get Flutter packages  # run gets flutter packages of project
         script: flutter packages pub get
 
-#      - name: Flutter Analyze
-#        script: flutter analyze
+      #      - name: Flutter Analyze
+      #        script: flutter analyze
       - name: Flutter Unit Tests
         script: flutter test
         ignore_failure: true
 
       - name: Build Android App Bundle in Flutter
         script: |
-         echo $BUILD_NUMBER 
-         flutter build apk --release --build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
+          echo $BUILD_NUMBER 
+          flutter build apk --release --build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
 
-#      - name: Set up code signing settings on Xcode project
-#        script: |
-#          xcode-project use-profiles
-#      - name: Install pods
-#        script: |
-#          find . -name "Podfile" -execdir pod install \;
-#      - name: Flutter build ipa and automatic versioning
-#        script: |
-#          flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
+      #      - name: Set up code signing settings on Xcode project
+      #        script: |
+      #          xcode-project use-profiles
+      #      - name: Install pods
+      #        script: |
+      #          find . -name "Podfile" -execdir pod install \;
+      #      - name: Flutter build ipa and automatic versioning
+      #        script: |
+      #          flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
       - name: Rename Artifacts 1
         script: |
-           ls build/**/outputs/bundle/release
-           ls build/**/outputs/flutter-apk
-           if [ ! -f "build/**/outputs/bundle/**/*.aab" ]; then
-            mv "build/**/outputs/bundle/**/*.aab" "build/**/outputs/bundle/**/*.aab"
-           fi
-            echo "Exists2"
-
+          set TIME=$(date +%d_%m_%Y)
+          set FILENAME=Svarupa_$TIME_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
+          echo $FILENAME
+          ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
+          if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
+           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/*.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$FILENAME.apk"
+          fi
+    
+    
 
     artifacts:
-      - build/**/outputs/bundle/**/*.aab
+      - $ARTIFACTS_ANDROID_APK_RELEASE_PATH
       - build/**/outputs/**/mapping.txt
     publishing:
-      email:
-        recipients:
-          - sshivam@citridot.com
-        notify:
-          success: true
-          failure: false
+#      email:
+#        recipients:
+#          - sshivam@citridot.com
+#        notify:
+#          success: true
+#          failure: false
       app_store_connect:
         auth: integration
-        submit_to_testflight: true
+        submit_to_testflight: false
         beta_groups: # Specify the names of beta tester groups that will get access to the build once it has passed beta review.
           - group name 1
         submit_to_app_store: false
