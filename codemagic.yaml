@@ -94,7 +94,7 @@ workflows:
 #          failure: false
       app_store_connect:
         auth: integration
-        submit_to_testflight: false
+        submit_to_testflight: true
         beta_groups: # Specify the names of beta tester groups that will get access to the build once it has passed beta review.
           - group name 1
         submit_to_app_store: false
