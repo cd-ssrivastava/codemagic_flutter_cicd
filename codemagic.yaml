@@ -43,8 +43,6 @@ workflows:
       cache_paths:
         - $FLUTTER_ROOT/.pub-cache
         - $HOME/.gradle/caches
-
-
     scripts:
       - name: Rename Artifacts 1
         script: |
