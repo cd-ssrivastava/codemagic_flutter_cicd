@@ -46,11 +46,7 @@ workflows:
     scripts:
       - name: Set up local.properties
         script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties" # Set Flutter SDK path for Android project
-      - name: Custom Scripts
-        script: |
-          set TIME=$(date +%d_%m_%Y)
-          echo $TIME_MAC
-          echo $TIME
+
       - name: Get Flutter packages  # run gets flutter packages of project
         script: flutter packages pub get
 
@@ -76,7 +72,7 @@ workflows:
       #          flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
       - name: Rename Artifacts 1
         script: |
-          set TIME=$(date +%d_%m_%Y)
+          set TIME_MAC=$(date +%d_%m_%Y)
           echo $TIME_MAC
           set BUILDNAME=Svarupa_$TIME_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
           echo $BUILDNAME
