@@ -34,7 +34,7 @@ workflows:
 
     environment:
       flutter: 3.13.7
-      java: 1.8
+      java: 17
       cocoapods: default
       xcode: latest
     cache:
