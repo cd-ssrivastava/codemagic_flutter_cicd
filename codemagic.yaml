@@ -70,10 +70,12 @@ workflows:
 #      - name: Flutter build ipa and automatic versioning
 #        script: |
 #          flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
-      - name: Rename artifacts
+      - name: Rename Artifacts
         script: |
+           ls build/**/outputs/bundle/release
+           ls build/**/outputs/flutter-apk
           if [ ! -f "build/**/outputs/bundle/**/*.aab" ]; then
-            echo "Exists"
+            mv "build/**/outputs/bundle/**/*.aab" "build/**/outputs/bundle/**/*.aab"
           fi
             echo "Exists2"
 
