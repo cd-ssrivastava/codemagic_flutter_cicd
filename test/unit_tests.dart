@@ -17,23 +17,31 @@ void main() {
       });
     });
 
-/*    test("Api Failure testing", () async {
+    test("Api Failure testing", () async {
       Dio mockDio = MockApiService();
       Api api = Api(mockDio);
 
-      when(api.getApiData()).thenAnswer((_) => throw  SocketException("No Internet"));
+      when(api.getApiData()).thenThrow((_) {
+        //  print("MockApiService1 ");
+        throw const SocketException("No Internet");
+      });
+      print("call  ");
 
-      expect(  api.getApiData(), throwsA(isA<Exception>()));
+      final call =  await api.getApiData();
+      print("call $call");
+      //    verify(api.getApiData());
+
+      expect(call, throwsA(isA<Exception>()));
 
       // throwsA(isA<Exception>())
       // throwsException
       // throwsA(isA<DioException>())
       // throwsA(isA<AppError>())
       // expect(api.getApiData(), throwsA(isA<DioException>()));  // Use when Api func throws Exception
-    });*/
+    });
 
     test("RemoteSourceRepository", () {
-     /* Api api = Api();
+      /* Api api = Api();
       api.getApiData().then((value) {
         expect(value, isA<Map>());
       });*/

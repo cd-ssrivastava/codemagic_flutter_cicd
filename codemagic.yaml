@@ -59,7 +59,7 @@ workflows:
       - name: Build Android App Bundle in Flutter
         script: |
          echo $BUILD_NUMBER 
-         flutter build apk --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
+         flutter build apk --release --build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
 
 #      - name: Set up code signing settings on Xcode project
 #        script: |
