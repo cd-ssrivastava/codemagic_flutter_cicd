@@ -18,7 +18,7 @@ workflows:
         - source: true
       tag_patterns:
         #       - pattern: build v+([0-9]).+([0-9]).+([0-9])
-        - pattern: {build}*
+        - pattern: '{build}*'
         - include: true
       cancel_previous_builds: true
 
