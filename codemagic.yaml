@@ -18,7 +18,7 @@ workflows:
         - source: true
       tag_patterns:
         #       - pattern: build v+([0-9]).+([0-9]).+([0-9])
-        - pattern: build*
+        - pattern: {build}*
         - include: true
       cancel_previous_builds: true
 
@@ -44,6 +44,16 @@ workflows:
 
 
     scripts:
+      - name: Rename Artifacts 1
+        script: |
+          set TIME_MAC=$(date +%d_%m_%Y)
+          echo $TIME_MAC
+          set BUILDNAME=Svarupa_$TIME_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
+          echo $BUILDNAME
+          ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
+          if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
+           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/*.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME.apk"
+          fi
       - name: Set up local.properties
         script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties" # Set Flutter SDK path for Android project
 
