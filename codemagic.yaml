@@ -64,6 +64,8 @@ workflows:
           echo $GOOGLE_CLOUD_SERVICE_JSON
           GOOGLE_CLOUD_SERVICE_VAR=$(echo $GOOGLE_CLOUD_SERVICE_JSON | base64 -D)
           echo $GOOGLE_CLOUD_SERVICE_VAR
+          firebase login
+
 
       - name: Get Flutter packages  # run gets flutter packages of project
         script: flutter packages pub get
