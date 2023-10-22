@@ -42,6 +42,7 @@ workflows:
       groups:
         - MacOS
         - Paths
+        - GoogleCloud
         - AppStore
         - Firebase
     cache:
@@ -59,8 +60,9 @@ workflows:
           echo $GOOGLE_SERVICES_ANDROID_JSON | base64 -D > $CM_BUILD_DIR/android/app/google-services.json
           echo "Creating iOS Firebase Plist File..."
           echo $GOOGLE_SERVICES_iOS_PLIST | base64 -D > $CM_BUILD_DIR/ios/Runner/GoogleService-Info.plist
-          echo "Creating Google Cloud Service Json File..."
-          GOOGLE_CLOUD_SERVICE_VAR=$(echo $GOOGLE_CLOUD_SERVICE_JSON | base64 -D )
+          echo "Creating Google Cloud Service Json variable..."
+          echo $GOOGLE_CLOUD_SERVICE_JSON
+          GOOGLE_CLOUD_SERVICE_VAR=$(echo $GOOGLE_CLOUD_SERVICE_JSON | base64 -D)
           echo $GOOGLE_CLOUD_SERVICE_VAR
 
       - name: Get Flutter packages  # run gets flutter packages of project
