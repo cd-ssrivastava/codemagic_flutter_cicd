@@ -53,6 +53,15 @@ workflows:
     scripts:
       - name: Set up local.properties
         script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties" # Set Flutter SDK path for Android project
+      - name: Loading Configuration files
+        script: |
+          echo "Creating Android Firebase JSON File..."
+          echo $GOOGLE_SERVICES_ANDROID_JSON | base64 -D > $CM_BUILD_DIR/android/app/google-services.json
+          echo "Creating iOS Firebase Plist File..."
+          echo $GOOGLE_SERVICES_iOS_PLIST | base64 -D > $CM_BUILD_DIR/ios/Runner/GoogleService-Info.plist
+          echo "Creating Google Cloud Service Json File..."
+          GOOGLE_CLOUD_SERVICE_VAR=$(echo $GOOGLE_CLOUD_SERVICE_JSON | base64 -D )
+          echo $GOOGLE_CLOUD_SERVICE_VAR
 
       - name: Get Flutter packages  # run gets flutter packages of project
         script: flutter packages pub get
@@ -62,6 +71,9 @@ workflows:
       - name: Flutter Unit Tests
         script: flutter test
         ignore_failure: true
+
+
+#    ignore_failure: true
 
       - name: Build Android App Bundle in Flutter
         script: |
@@ -81,16 +93,16 @@ workflows:
         script: |
           export TIME=$(date +%d_%m_%Y)
           echo $TIME
-          export BUILDNAME=Svarupa_$(echo $TIME)_1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
+          export BUILDNAME=Svarupa_$(echo $TIME)_v1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
           echo $BUILDNAME
           ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
           if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
-           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/app-release.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME.apk"
+           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/app-release.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME"
           fi
 
     artifacts:
       - $ARTIFACTS_ANDROID_APK_RELEASE_PATH/
-#      - build/**/outputs/**/mapping.txt
+      - build/**/outputs/**/mapping.txt
     publishing:
       email:
         recipients:
@@ -98,6 +110,13 @@ workflows:
         notify:
           success: true
           failure: false
+      firebase:
+        firebase_service_account: $GOOGLE_CLOUD_SERVICE_VAR
+#        firebase_token: $ANDROID_FIREBASE_SECRET
+        android:
+          app_id: $FIREBASE_APPID_ANDROID
+          groups:
+            - InternalGroup
       app_store_connect:
         auth: integration
         submit_to_testflight: true
