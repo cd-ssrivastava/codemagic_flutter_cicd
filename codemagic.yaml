@@ -17,7 +17,7 @@ workflows:
         - include: true
         - source: true
       tag_patterns:
-        - pattern: build v+([0-9]).+([0-9]).+([0-9])
+        - pattern: (build)+( )v+([0-9]).+([0-9]).+([0-9])
 #        - pattern: '{build}*'
         - include: true
       cancel_previous_builds: true
@@ -27,7 +27,7 @@ workflows:
       cocoapods: default
       xcode: latest
       ios_signing:
-        distribution_type: ad_hoc
+        distribution_type: development
         bundle_identifier: com.example.codemagic
 #        provisioning_profiles:
 #          - profile: profile_reference
