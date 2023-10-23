@@ -4,21 +4,19 @@ workflows:
   development-workflow:
     name: Development Workflow - Android & iOS
     instance_type: mac_mini_m1
-    max_build_duration: 120
+    max_build_duration: 30
     integrations:
       app_store_connect: Codemagic CICD
     triggering:
       events:
         - push
         - tag
-      #       - pull_request
       branch_patterns:
         - pattern: dev-*
         - include: true
         - source: true
       tag_patterns:
         - pattern: (build)+( )v+([0-9]).+([0-9]).+([0-9])
-#        - pattern: '{build}*'
         - include: true
       cancel_previous_builds: true
     environment:
@@ -29,8 +27,6 @@ workflows:
       ios_signing:
         distribution_type: development
         bundle_identifier: com.example.codemagic
-#        provisioning_profiles:
-#          - profile: profile_reference
       groups:
         - MacOS
         - Paths
@@ -44,6 +40,7 @@ workflows:
       - name: Set up local.properties
         # Set Flutter SDK path for Android project
         script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+        # Creating secret env keys to files in project
       - name: Loading Configuration files
         script: |
           echo "Creating Android Firebase JSON File..."
@@ -60,6 +57,7 @@ workflows:
         # Analysis of Flutter Code
       - name: Flutter Analyze
         script: flutter analyze
+
         # Perform Unit Tests on project
       - name: Flutter Unit Tests
         script: flutter test
@@ -70,17 +68,8 @@ workflows:
         script: |
           echo $BUILD_NUMBER 
           flutter build apk --release --build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
-
-      - name: Initialize Keychain
-        script: keychain add-certificate
-      - name: Set up code signing settings on Xcode project
-        script: xcode-project use-profiles
-      - name: Install pods
-        script: find . -name "Podfile" -execdir pod install
-      - name: Flutter build ipa and automatic versioning
-        script: flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
-      - name: Rename Android Artifacts
-        script: |
+          
+          # Renaming Android build files
           if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
           export TIME=$(date +%d_%m_%Y)
           echo $TIME
@@ -102,14 +91,8 @@ workflows:
           failure: false
       firebase:
         firebase_token: $FIREBASE_TOKEN
-        #        firebase_token: $ANDROID_FIREBASE_SECRET
         android:
           app_id: $FIREBASE_APPID_ANDROID
           groups:
             - InternalGroup
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
-        beta_groups: # Specify the names of beta tester groups that will get access to the build once it has passed beta review.
-          - group name 1
-        submit_to_app_store: false
+
