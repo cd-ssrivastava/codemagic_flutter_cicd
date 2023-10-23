@@ -125,3 +125,17 @@ workflows:
         track: $GOOGLE_PLAY_TRACK
         submit_as_draft: true
 
+
+
+
+
+
+    # watched files/folders have changed since the last successful build
+    #    when:
+    #      changeset:
+    #        includes:
+    #          - '.'
+    #          - 'android/'
+    #        excludes:
+    #          - '**/*.md'
+    #      condition: not event.pull_request.labels[0].name == "codemagicTest"

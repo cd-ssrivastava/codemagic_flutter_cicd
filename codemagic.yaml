@@ -21,19 +21,6 @@ workflows:
         - pattern: '{build}*'
         - include: true
       cancel_previous_builds: true
-
-
-
-    # watched files/folders have changed since the last successful build
-    #    when:
-    #      changeset:
-    #        includes:
-    #          - '.'
-    #          - 'android/'
-    #        excludes:
-    #          - '**/*.md'
-    #      condition: not event.pull_request.labels[0].name == "codemagicTest"
-
     environment:
       flutter: 3.13.7
       java: 17
@@ -48,64 +35,51 @@ workflows:
       cache_paths:
         - $FLUTTER_ROOT/.pub-cache
         - $HOME/.gradle/caches
-
-
     scripts:
       - name: Set up local.properties
-        script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties" # Set Flutter SDK path for Android project
+        # Set Flutter SDK path for Android project
+        script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
       - name: Loading Configuration files
         script: |
           echo "Creating Android Firebase JSON File..."
-          echo $GOOGLE_SERVICES_ANDROID_JSON | base64 -D > $CM_BUILD_DIR/android/app/google-services.json
+          echo $GOOGLE_SERVICES_ANDROID_JSON | base64 -D > $CM_BUILD_DIR/android/app/google-services.json 
           
           echo "Creating iOS Firebase Plist File..."
           echo $GOOGLE_SERVICES_iOS_PLIST | base64 -D > $CM_BUILD_DIR/ios/Runner/GoogleService-Info.plist
+        ignore_failure: false # If script fails, stop the building
 
-
-#          echo "Install Firebase CLI"
-#          npm install -g firebase-tools
-#          echo "$FIREBASE_SERVICE_ACCOUNT_KEY" | base64 --decode > ./firebase_key.json
-#          firebase login --no-localhost --no-confirmation --service-account ./firebase_key.json
-
-
-        ignore_failure: false
-
-
-
-      - name: Get Flutter packages  # run gets flutter packages of project
+        # Gets flutter packages of project
+      - name: Get Flutter packages
         script: flutter packages pub get
 
-      #      - name: Flutter Analyze
-      #        script: flutter analyze
+        # Analysis of Flutter Code
+      - name: Flutter Analyze
+        script: flutter analyze
+        # Perform Unit Tests on project
       - name: Flutter Unit Tests
         script: flutter test
-        ignore_failure: true
+        ignore_failure: false
 
-
-#    ignore_failure: true
-
+        # Start the app building process
       - name: Build Android App Bundle in Flutter
         script: |
           echo $BUILD_NUMBER 
           flutter build apk --release --build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
 
-      #      - name: Set up code signing settings on Xcode project
-      #        script: |
-      #          xcode-project use-profiles
-      #      - name: Install pods
-      #        script: |
-      #          find . -name "Podfile" -execdir pod install \;
-      #      - name: Flutter build ipa and automatic versioning
-      #        script: |
-      #          flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
-      - name: Rename Artifacts 1
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Install pods
+        script: find . -name "Podfile" -execdir pod install \;
+      - name: Flutter build ipa and automatic versioning
+        script: flutter build ipa --release build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
+      - name: Rename Android Artifacts
         script: |
+          if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
           export TIME=$(date +%d_%m_%Y)
           echo $TIME
           export BUILDNAME=Svarupa_$(echo $TIME)_v1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
           echo $BUILDNAME
           ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
-          if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
            mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/app-release.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME"
           fi
 
@@ -121,7 +95,7 @@ workflows:
           failure: false
       firebase:
         firebase_token: $FIREBASE_TOKEN
-#        firebase_token: $ANDROID_FIREBASE_SECRET
+        #        firebase_token: $ANDROID_FIREBASE_SECRET
         android:
           app_id: $FIREBASE_APPID_ANDROID
           groups:
