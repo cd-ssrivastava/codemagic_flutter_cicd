@@ -24,9 +24,6 @@ workflows:
       java: 17
       cocoapods: default
       xcode: latest
-      ios_signing:
-        distribution_type: development
-        bundle_identifier: com.example.codemagic
       groups:
         - MacOS
         - Paths
