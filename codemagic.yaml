@@ -60,14 +60,7 @@ workflows:
           
           echo "Creating iOS Firebase Plist File..."
           echo $GOOGLE_SERVICES_iOS_PLIST | base64 -D > $CM_BUILD_DIR/ios/Runner/GoogleService-Info.plist
-          
-          echo "Creating Google Cloud Service Json variable..."
-          echo $GOOGLE_CLOUD_SERVICE_JSON
-          echo $GOOGLE_CLOUD_SERVICE_JSON | base64 -D > $CM_BUILD_DIR/firebase_service_account.json
-          export GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_service_account.json
-          echo $GOOGLE_APPLICATION_CREDENTIALS
-          ls
-          
+
 
 #          echo "Install Firebase CLI"
 #          npm install -g firebase-tools
@@ -127,8 +120,7 @@ workflows:
           success: true
           failure: false
       firebase:
-        firebase_service_account: $GOOGLE_APPLICATION_CREDENTIALS
-
+        firebase_token: $FIREBASE_TOKEN
 #        firebase_token: $ANDROID_FIREBASE_SECRET
         android:
           app_id: $FIREBASE_APPID_ANDROID
