@@ -95,3 +95,99 @@ workflows:
           groups:
             - InternalGroup
 
+
+  # Development Workflow
+  production-workflow:
+    name: Production Workflow - Android & iOS
+    instance_type: mac_mini_m1
+    max_build_duration: 30
+    integrations:
+      app_store_connect: Codemagic CICD
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: dev-*
+        - include: true
+        - source: true
+      tag_patterns:
+        - pattern: (build)+( )v+([0-9]).+([0-9])
+        - include: true
+      cancel_previous_builds: true
+    environment:
+      flutter: 3.13.7
+      java: 17
+      cocoapods: default
+      xcode: latest
+      groups:
+        - MacOS
+        - Paths
+        - AppStore
+        - Firebase
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT/.pub-cache
+        - $HOME/.gradle/caches
+    scripts:
+      - name: Set up local.properties
+        # Set Flutter SDK path for Android project
+        script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+        # Creating secret env keys to files in project
+      - name: Loading Configuration files
+        script: |
+          echo "Creating Android Firebase JSON File..."
+          echo $GOOGLE_SERVICES_ANDROID_JSON | base64 -D > $CM_BUILD_DIR/android/app/google-services.json 
+          
+          echo "Creating iOS Firebase Plist File..."
+          echo $GOOGLE_SERVICES_iOS_PLIST | base64 -D > $CM_BUILD_DIR/ios/Runner/GoogleService-Info.plist
+        ignore_failure: false # If script fails, stop the building
+
+        # Gets flutter packages of project
+      - name: Get Flutter packages
+        script: flutter packages pub get
+
+        # Analysis of Flutter Code
+#      - name: Flutter Analyze
+#        script: flutter analyze
+#        ignore_failure: false
+
+        # Perform Unit Tests on project
+      - name: Flutter Unit Tests
+        script: flutter test
+        ignore_failure: false
+
+        # Start the app building process
+      - name: Build Android App Bundle in Flutter
+        script: |
+          echo $BUILD_NUMBER 
+          flutter build apk --release --build-name=1.0.$BUILD_NUMBER --build-number=$BUILD_NUMBER
+          
+          # Renaming Android build files
+          if [ ! -f "$ARTIFACTS_ANDROID_APK_RELEASE_PATH" ]; then
+          export TIME=$(date +%d_%m_%Y)
+          echo $TIME
+          export BUILDNAME=Svarupa_$(echo $TIME)_v1.0.$BUILD_NUMBER_b$BUILD_NUMBER.apk
+          echo $BUILDNAME
+          ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
+           mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/app-release.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME"
+          fi
+
+
+    artifacts:
+      - $ARTIFACTS_ANDROID_APK_RELEASE_PATH/
+      - build/**/outputs/**/mapping.txt
+    publishing:
+      email:
+        recipients:
+          - sshivam@citridot.com
+        notify:
+          success: true
+          failure: false
+      firebase:
+        firebase_token: $FIREBASE_TOKEN
+        android:
+          app_id: $FIREBASE_APPID_ANDROID
+          groups:
+            - InternalGroup
+
