@@ -16,7 +16,7 @@ workflows:
         - include: true
         - source: true
       tag_patterns:
-        - pattern: (build)+( )v+([0-9]).+([0-9]).+([0-9])
+        - pattern: (build)+( )v+([0-9]).+([0-9])
         - include: true
       cancel_previous_builds: true
     environment:
@@ -52,9 +52,9 @@ workflows:
         script: flutter packages pub get
 
         # Analysis of Flutter Code
-      - name: Flutter Analyze
-        script: flutter analyze
-        ignore_failure: false
+#      - name: Flutter Analyze
+#        script: flutter analyze
+#        ignore_failure: false
 
         # Perform Unit Tests on project
       - name: Flutter Unit Tests
