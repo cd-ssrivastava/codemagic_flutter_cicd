@@ -54,6 +54,7 @@ workflows:
         # Analysis of Flutter Code
       - name: Flutter Analyze
         script: flutter analyze
+        ignore_failure: false
 
         # Perform Unit Tests on project
       - name: Flutter Unit Tests
@@ -75,6 +76,7 @@ workflows:
           ls $ARTIFACTS_ANDROID_APK_RELEASE_PATH
            mv "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/app-release.apk" "$ARTIFACTS_ANDROID_APK_RELEASE_PATH/$BUILDNAME"
           fi
+
 
     artifacts:
       - $ARTIFACTS_ANDROID_APK_RELEASE_PATH/
