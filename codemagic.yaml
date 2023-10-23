@@ -64,9 +64,9 @@ workflows:
           
           echo "Creating Google Cloud Service Json variable..."
           echo $GOOGLE_CLOUD_SERVICE_JSON
-          GOOGLE_APPLICATION_CREDENTIALS=$(echo $GOOGLE_CLOUD_SERVICE_JSON | base64 -D)
+          export GOOGLE_APPLICATION_CREDENTIALS=$(echo $GOOGLE_CLOUD_SERVICE_JSON | base64 -D > $CM_BUILD_DIR/firebase_service_account.json)
           echo $GOOGLE_APPLICATION_CREDENTIALS
-          
+          ls
 #          echo "Install Firebase CLI"
 #          npm install -g firebase-tools
 #          echo "$FIREBASE_SERVICE_ACCOUNT_KEY" | base64 --decode > ./firebase_key.json
