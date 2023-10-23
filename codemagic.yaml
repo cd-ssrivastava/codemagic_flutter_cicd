@@ -42,7 +42,6 @@ workflows:
       groups:
         - MacOS
         - Paths
-        - GoogleCloud
         - AppStore
         - Firebase
     cache:
